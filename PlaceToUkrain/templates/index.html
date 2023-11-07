@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %}Place to Ukrain{% endblock %}
+
+{% block content %}
+  <div class="text-center">
+    <h1>Place to Ukrain</h1>
+    <h2>Bienvenue {{user.email}}</h2>
+    <div class="btn-group mt-4" role="group">
+      <a href="{% url 'statistics' %}" class="btn btn-primary">Statistics</a>
+      {% if user.is_host %}
+        <a href="{% url 'create_house' %}" class="btn btn-success">Create a House</a>
+      {% else %}
+        <a href="{% url 'search' %}" class="btn btn-info">Search for a House</a>
+      {% endif %}
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}Place to Ukrain{% endblock %}
+
+{% block content %}
+  <div class="text-center">
+    <h1>Create a house</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Create House</button>
+    </form>
+    
+  </div>
+{% endblock %}

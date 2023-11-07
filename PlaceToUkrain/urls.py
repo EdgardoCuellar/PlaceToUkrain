@@ -16,7 +16,23 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from PlaceToUkrain.views.login import LoginView, logout
+from PlaceToUkrain.views.register import RegistrationView
+from PlaceToUkrain.views.homepage import HomepageView
+from PlaceToUkrain.views.search import SearchView
+from PlaceToUkrain.views.create_house import CreateHouseView
+from PlaceToUkrain.views.statistics import StatisticsView
+from PlaceToUkrain.views.index import IndexView
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', HomepageView.as_view(), name='home'),
+    path('login/', LoginView.as_view(), name='login'),
+    path('register/', RegistrationView.as_view(), name='register'),
+    path('logout', logout , name='logout'),
+    path('index/', IndexView.as_view(), name='index'),
+    path('search/', SearchView.as_view(), name='search'),
+    path('create_house/', CreateHouseView.as_view(), name='create_house'),
+    path('statistics/', StatisticsView.as_view(), name='statistics'),
 ]
