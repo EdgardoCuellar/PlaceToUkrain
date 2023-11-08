@@ -1,6 +1,7 @@
 from django import forms
 from PlaceToUkrain.models.user import UkrUser
 from PlaceToUkrain.models.house import House
+from PlaceToUkrain.models.period import Period
 
 class RegistrationForm(forms.ModelForm):
     class Meta:
@@ -20,3 +21,11 @@ class HouseForm(forms.ModelForm):
         model = House
         fields = ['country', 'city', 'price_type', 'price', 'people']
 
+class PeriodForm(forms.ModelForm):
+    class Meta:
+        model = Period
+        fields = ['start_date', 'end_date']
+        widgets = {
+            'start_date': forms.DateInput(attrs={'type': 'date', 'class': 'datepicker'}),
+            'end_date': forms.DateInput(attrs={'type': 'date', 'class': 'datepicker'}),
+        }

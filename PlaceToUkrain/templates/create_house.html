@@ -3,13 +3,98 @@
 {% block title %}Place to Ukrain{% endblock %}
 
 {% block content %}
-  <div class="text-center">
-    <h1>Create a house</h1>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Create House</button>
-    </form>
-    
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    // Function to add a new period
+    function addPeriod() {
+      if (document.querySelectorAll('.period-row').length >= 5) {
+        return;
+      }
+      const periodRow = document.querySelector('.period-row');
+      const newPeriodRow = periodRow.cloneNode(true);
+
+      // Clear input values in the cloned row
+      const inputs = newPeriodRow.querySelectorAll('input[type="date"]');
+      inputs.forEach((input) => {
+        input.value = '';
+        // Update the name attribute to include the correct formset index
+        const newName = input.name.replace('-0-', `-${document.querySelectorAll('.period-row').length - 1}-`);
+        input.name = newName;
+      });
+
+      // Add the cloned row to the form
+      periodRow.parentNode.insertBefore(newPeriodRow, periodRow);
+
+      // Attach event listeners to the new "+" and "-" buttons
+      newPeriodRow.querySelector('.add-period').addEventListener('click', addPeriod);
+      newPeriodRow.querySelector('.remove-period').addEventListener('click', function () {
+        removePeriod(this);
+      });
+    }
+
+    // Function to remove a period
+    function removePeriod(button) {
+      const periodRow = button.parentElement.parentElement;
+      if (periodRow.parentElement.childElementCount > 1) {
+        periodRow.remove();
+      }
+    }
+
+    // Event listener for the "+" button
+    document.querySelector('.add-period').addEventListener('click', addPeriod);
+
+    // Event listener for the "-" button (delegated to the container)
+    document.querySelector('.container').addEventListener('click', function (event) {
+      if (event.target.classList.contains('remove-period')) {
+        removePeriod(event.target);
+      }
+    });
+  });
+</script>
+
+
+
+  
+
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <h1 class="text-center">Create a House</h1>
+        <form method="post" class="my-4">
+          {% csrf_token %}
+          {{ house_form.as_p }}
+          {{ period_formset.management_form }}  {# Add this line to include the management form #}
+      
+          <fieldset>
+            <legend>Periods</legend>
+            {% for form in period_formset %}
+                <div class="form-row period-row">
+                    <div class="form-group col-md-6">
+                        {{ form.start_date.label_tag }}
+                        {{ form.start_date }}
+                    </div>
+                    <div class="form-group col-md-6">
+                        {{ form.end_date.label_tag }}
+                        {{ form.end_date }}
+                    </div>
+                    {% if forloop.last %}
+                        <div class="col-md-12">
+                            <button type="button" class="btn btn-success add-period">+</button>
+                            <button type="button" class="btn btn-danger remove-period">-</button>
+                        </div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+            {{ period_formset.management_form }}
+        </fieldset>
+        
+      
+          <button type="submit" class="btn btn-primary mt-3">Create House</button>
+      </form>
+      
+      
+      </div>
+    </div>
   </div>
 {% endblock %}

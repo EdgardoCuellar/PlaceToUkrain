@@ -20,7 +20,7 @@ from PlaceToUkrain.views.login import LoginView, logout
 from PlaceToUkrain.views.register import RegistrationView
 from PlaceToUkrain.views.homepage import HomepageView
 from PlaceToUkrain.views.search import SearchView
-from PlaceToUkrain.views.create_house import CreateHouseView
+from PlaceToUkrain.views.create_house import CreateHouseView, delete_house
 from PlaceToUkrain.views.statistics import StatisticsView
 from PlaceToUkrain.views.index import IndexView
 
@@ -34,5 +34,6 @@ urlpatterns = [
     path('index/', IndexView.as_view(), name='index'),
     path('search/', SearchView.as_view(), name='search'),
     path('create_house/', CreateHouseView.as_view(), name='create_house'),
+    path('delete_house/<int:house_id>/', delete_house, name='delete_house'),
     path('statistics/', StatisticsView.as_view(), name='statistics'),
 ]

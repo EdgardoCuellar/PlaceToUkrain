@@ -14,5 +14,37 @@
         <a href="{% url 'search' %}" class="btn btn-info">Search for a House</a>
       {% endif %}
     </div>
+    {% if user.is_host %}
+        <h2>Vos maisons</h2>
+        <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+            <th>Pays</th>
+            <th>Ville</th>
+            <th>Type de prix</th>
+            <th>Prix</th>
+            <th>Nombre de personnes</th>
+            <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for house in houses %}
+            <tr>
+                <td>{{ house.country }}</td>
+                <td>{{ house.city }}</td>
+                <td>{{ house.get_price_type_display }}</td>
+                <td>{{ house.price }}</td>
+                <td>{{ house.people }}</td>
+                <td>
+                <form method="post" action="{% url 'delete_house' house.id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+        </table>
+    {% endif %}
   </div>
 {% endblock %}
