@@ -24,22 +24,27 @@
             <th>Type de prix</th>
             <th>Prix</th>
             <th>Nombre de personnes</th>
+            <th>Periodes<th>
             <th>Action</th>
             </tr>
         </thead>
         <tbody>
-            {% for house in houses %}
+            {% for house_period in houses_periods %}
             <tr>
-                <td>{{ house.country }}</td>
-                <td>{{ house.city }}</td>
-                <td>{{ house.get_price_type_display }}</td>
-                <td>{{ house.price }}</td>
-                <td>{{ house.people }}</td>
+                <td>{{ house_period.0.country }}</td>
+                <td>{{ house_period.0.city }}</td>
+                <td>{{ house_period.0.get_price_type_display }}</td>
+                <td>{{ house_period.0.price }}</td>
+                <td>{{ house_period.0.people }}</td>
                 <td>
-                <form method="post" action="{% url 'delete_house' house.id %}">
-                    {% csrf_token %}
-                    <button type="submit" class="btn btn-danger">Delete</button>
-                </form>
+                  {% for period in house_period.1 %}
+                    {{ period }}<br>
+                  {% endfor %}
+                <td>
+                  <form method="post" action="{% url 'delete_house' house_period.0.id %}">
+                      {% csrf_token %}
+                      <button type="submit" class="btn btn-danger">Delete</button>
+                  </form>
                 </td>
             </tr>
             {% endfor %}
