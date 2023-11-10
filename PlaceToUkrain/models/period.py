@@ -2,7 +2,7 @@ from django.db import models
 from PlaceToUkrain.models.house import House
 
 class Period(models.Model):
-    house = models.ForeignKey(House, on_delete=models.CASCADE)
+    house = models.ForeignKey(House, on_delete=models.CASCADE, null=True, blank=True)
     start_date = models.DateField()
     end_date = models.DateField()
 

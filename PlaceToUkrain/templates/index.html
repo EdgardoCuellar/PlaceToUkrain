@@ -19,13 +19,13 @@
         <table class="table table-bordered table-striped">
         <thead>
             <tr>
-            <th>Pays</th>
-            <th>Ville</th>
-            <th>Type de prix</th>
-            <th>Prix</th>
-            <th>Nombre de personnes</th>
-            <th>Periodes<th>
-            <th>Action</th>
+              <th>Pays</th>
+              <th>Ville</th>
+              <th>Type de prix</th>
+              <th>Prix</th>
+              <th>Nombre de personnes</th>
+              <th>Periodes</th>
+              <th>Action</th>
             </tr>
         </thead>
         <tbody>
@@ -40,6 +40,7 @@
                   {% for period in house_period.1 %}
                     {{ period }}<br>
                   {% endfor %}
+                </td>
                 <td>
                   <form method="post" action="{% url 'delete_house' house_period.0.id %}">
                       {% csrf_token %}

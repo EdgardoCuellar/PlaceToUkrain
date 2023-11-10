@@ -11,8 +11,8 @@ class IndexView(View):
             return redirect('login')           
         user = UkrUser.get_user_by_id(request.session.get('user'))
         houses = House.get_houses_by_user_id(request.session.get('user'))
+        houses_periods = []
         for house in houses:
-            houses_periods = (house, Period.get_periods_by_house(house))
-            print(houses_periods[0][0].id)
+            houses_periods.append((house, Period.get_periods_by_house(house)))
         
         return render(request, 'index.html', {'user': user, 'houses_periods': houses_periods})

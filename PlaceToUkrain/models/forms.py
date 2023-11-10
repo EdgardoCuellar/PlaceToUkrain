@@ -29,3 +29,12 @@ class PeriodForm(forms.ModelForm):
             'start_date': forms.DateInput(attrs={'type': 'date', 'class': 'datepicker'}),
             'end_date': forms.DateInput(attrs={'type': 'date', 'class': 'datepicker'}),
         }
+
+class HouseSearchForm(forms.Form):
+    max_price = forms.IntegerField(label='Maximum Price', required=False)
+    period_start_date = forms.DateField(label='Period Start Date', widget=forms.DateInput(attrs={'type': 'date'}), required=False)
+    period_end_date = forms.DateField(label='Period End Date', widget=forms.DateInput(attrs={'type': 'date'}), required=False)
+    num_people = forms.IntegerField(label='Number of People', required=False)
+    country = forms.CharField(label='Country', max_length=128, required=False)
+    city = forms.CharField(label='City', max_length=128, required=False)
+

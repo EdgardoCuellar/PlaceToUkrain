@@ -4,59 +4,6 @@
 
 {% block content %}
 
-<script>
-  document.addEventListener('DOMContentLoaded', function () {
-    // Function to add a new period
-    function addPeriod() {
-      if (document.querySelectorAll('.period-row').length >= 5) {
-        return;
-      }
-      const periodRow = document.querySelector('.period-row');
-      const newPeriodRow = periodRow.cloneNode(true);
-
-      // Clear input values in the cloned row
-      const inputs = newPeriodRow.querySelectorAll('input[type="date"]');
-      inputs.forEach((input) => {
-        input.value = '';
-        // Update the name attribute to include the correct formset index
-        const newName = input.name.replace('-0-', `-${document.querySelectorAll('.period-row').length - 1}-`);
-        input.name = newName;
-      });
-
-      // Add the cloned row to the form
-      periodRow.parentNode.insertBefore(newPeriodRow, periodRow);
-
-      // Attach event listeners to the new "+" and "-" buttons
-      newPeriodRow.querySelector('.add-period').addEventListener('click', addPeriod);
-      newPeriodRow.querySelector('.remove-period').addEventListener('click', function () {
-        removePeriod(this);
-      });
-    }
-
-    // Function to remove a period
-    function removePeriod(button) {
-      const periodRow = button.parentElement.parentElement;
-      if (periodRow.parentElement.childElementCount > 1) {
-        periodRow.remove();
-      }
-    }
-
-    // Event listener for the "+" button
-    document.querySelector('.add-period').addEventListener('click', addPeriod);
-
-    // Event listener for the "-" button (delegated to the container)
-    document.querySelector('.container').addEventListener('click', function (event) {
-      if (event.target.classList.contains('remove-period')) {
-        removePeriod(event.target);
-      }
-    });
-  });
-</script>
-
-
-
-  
-
   <div class="container">
     <div class="row justify-content-center">
       <div class="col-md-6">
@@ -78,19 +25,13 @@
                         {{ form.end_date.label_tag }}
                         {{ form.end_date }}
                     </div>
-                    {% if forloop.last %}
-                        <div class="col-md-12">
-                            <button type="button" class="btn btn-success add-period">+</button>
-                            <button type="button" class="btn btn-danger remove-period">-</button>
-                        </div>
-                    {% endif %}
                 </div>
             {% endfor %}
             {{ period_formset.management_form }}
         </fieldset>
         
-      
-          <button type="submit" class="btn btn-primary mt-3">Create House</button>
+        {{ error }}  <br>
+        <button type="submit" class="btn btn-primary mt-3">Create House</button>
       </form>
       
       

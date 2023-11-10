@@ -1,9 +1,72 @@
 {% extends 'base.html' %}
 
-{% block title %}Place to Ukrain{% endblock %}
+{% block title %}House Search{% endblock %}
+
+{% load filter %}
 
 {% block content %}
-  <div class="text-center">
-    <h1>Search</h1>
+  <div class="container">
+    <h1 class="text-center">House Search</h1>
+    <div class="row">
+      <!-- Filter Zone on the Left -->
+      <div class="col-md-5">
+        <h2>Filter Options</h2>
+        <form method="post">
+          {% csrf_token %}
+          {{ form.as_table }}
+          <button type="submit" class="btn btn-primary mt-3">Search</button>
+        </form>
+      </div>
+    </div>
+
+      <!-- Search Zone on the Right -->
+      <div class="col-md-12 row">
+        {% if houses %}
+          <h2 class="mt-4">Search Results</h2>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th>Pays</th>
+                <th>Ville</th>
+                <th>Type de prix</th>
+                <th>Price</th>
+                <th>People</th>
+                <th>Periods</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for house in houses %}
+                <tr>
+                  <form method="post" action="{% url 'rent_house' house.id %}">
+                    {% csrf_token %}
+                    <td>{{ house.country }}</td>
+                    <td>{{ house.city }}</td>
+                    <td>{{ house.get_price_type_display }}</td>
+                    {% if house.price_type == 'payant' %}
+                      <td>{{ house.price }} €</td>
+                    {% elif house.price_type == 'gratuit' %}
+                      <td>0 €</td>
+                    {% else %}
+                      <td>
+                        <label for="username">Votre prix </label>
+                        <input required type="text" name="offer" class="form-control" id="offer">
+                      </td>
+                    {% endif %}
+                    <td>{{ house.people }}</td>
+                    <td>
+                      {{ house.id|get_periods}}
+                    </td>
+                    <td>
+                      <button type="submit" class="btn btn-success">Reserve</button>
+                    </td>
+                  </form>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        {% endif %}
+      </div>
+    </div>
   </div>
 {% endblock %}
