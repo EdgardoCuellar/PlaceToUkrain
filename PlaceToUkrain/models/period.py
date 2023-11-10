@@ -1,11 +1,12 @@
 from django.db import models
 from PlaceToUkrain.models.house import House
+from PlaceToUkrain.models.rented import Rented
+from PlaceToUkrain.models.period import Period
 
 class Period(models.Model):
     house = models.ForeignKey(House, on_delete=models.CASCADE, null=True, blank=True)
     start_date = models.DateField()
     end_date = models.DateField()
-    renter = models.IntegerField()
 
     def __str__(self):
         return str(self.start_date) + " au " + str(self.end_date)
@@ -20,4 +21,12 @@ class Period(models.Model):
 
     @staticmethod
     def get_periods_by_house_available(house):
-        return Period.objects.filter(house=house, renter=None)
+        periods = Period.objects.filter(house=house)
+        rented_periods = Rented.get_rented_by_house(house)
+
+        avalaible_periods = []
+
+        
+            
+
+        return Period.objects.filter(house=house)

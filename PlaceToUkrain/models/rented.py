@@ -5,21 +5,21 @@ from PlaceToUkrain.models.user import UkrUser
 class Rented(models.Model):
     start_date = models.DateField()
     end_date = models.DateField()
-    user_id = models.ForeignKey(UkrUser, on_delete=models.CASCADE)
-    house_id = models.ForeignKey(House, on_delete=models.CASCADE)
+    user = models.ForeignKey(UkrUser, on_delete=models.CASCADE)
+    house = models.ForeignKey(House, on_delete=models.CASCADE)
     offer = models.IntegerField()
 
     def __str__(self):
         return str(self.start_date) + " " + str(self.end_date)
 
     @staticmethod
-    def get_all_periods():
-        return Period.objects.all()
+    def get_all_rented():
+        return Rented.objects.all()
 
     @staticmethod
-    def get_periods_by_house(house):
-        return Period.objects.filter(house=house)
+    def get_rented_by_user(user):
+        return Rented.objects.filter(user=user)
 
     @staticmethod
-    def get_periods_by_house_available(house):
-        return Period.objects.filter(house=house, renter=None)
+    def get_rented_by_house(house):
+        return Rented.objects.filter(house=house)

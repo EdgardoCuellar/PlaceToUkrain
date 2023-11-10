@@ -59,26 +59,19 @@ def delete_house(request, house_id):
     return redirect('index')
 
 def rent_house(request, house_id):
-    house = House.get_house_by_id(house_id)
-    user = UkrUser.get_user_by_id(request.session.get('user'))
     period_str = request.POST.get('house_period')
+    offer = request.POST.get('offer')
     rented = Rented()
-    rented.house_id = house
-    rented.user_id = user
+    if offer is not None:
+        rented.offer = offer
+    rented.house_id = house_id
+    rented.user_id = request.session.get('user')
 
-    print(period_str)
+    period = period_str.split(' au ')
+    
+    rented.start_date = datetime.datetime.strptime(period[0], '%Y-%m-%d').date()
+    rented.end_date = datetime.datetime.strptime(period[1], '%Y-%m-%d').date()
 
-    period = period_str[1:-1].split(', ')
-
-    print(period)
-
-    # transofrm date string to date object
-    rented.start_date = datetime.datetime.strptime(period[0], "datetime.date(%Y, %m, %d)").date()
-    rented.end_date = datetime.datetime.strptime(period[1], "datetime.date(%Y, %m, %d)").date()
-
-    print(rented)
-
-    # rented.save()
-
+    rented.save()
 
     return redirect('index')

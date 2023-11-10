@@ -39,7 +39,7 @@ class SearchView(View):
             if len(available_houses) > 0:
                 period = None
                 if start_date is not None and end_date is not None:
-                    period = (start_date, end_date)
+                    period = str(start_date) + " au " + str(end_date)
                 return render(request, self.template_name, {'form': form, 'houses': available_houses, 'period': period})
                 
             propositions = self.create_proposition(houses, start_date, end_date, city)
@@ -96,10 +96,13 @@ class SearchView(View):
         for house, period in sorted_houses:
             if period.start_date <= current_date and start_date <= period.end_date:
                 if period.end_date <= end_date:
-                    current_proposition.append((house, (current_date, period.end_date)))
+                    current_proposition.append((house, self.format_dates(current_date, period.end_date)))
                     current_date = period.end_date
                 else:
-                    current_proposition.append((house, (current_date, end_date)))
+                    current_proposition.append((house, self.format_dates(current_date, end_date)))
                     break
         propositions.append((current_proposition))
         return propositions
+
+    def format_dates(self, start_date, end_date):
+        return str(start_date) + " au " + str(end_date)
