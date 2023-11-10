@@ -28,14 +28,22 @@ class House(models.Model):
     @staticmethod
     def get_houses_by_city(city):
         return House.objects.filter(city=city)
-
+        
+    @staticmethod
     def get_houses_by_user_id(id):
         return House.objects.filter(user_id=id)
 
+    @staticmethod
     def get_house_by_id(id):
         try:
             return House.objects.get(id=id)
         except:
             return False
 
-    
+    @staticmethod
+    def get_houses_by_city(city):
+        return House.objects.filter(city=city)
+
+    @staticmethod
+    def get_all_cities():
+        return House.objects.values_list('city', flat=True).distinct()

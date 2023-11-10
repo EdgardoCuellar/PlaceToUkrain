@@ -8,9 +8,8 @@
   <div class="container">
     <h1 class="text-center">House Search</h1>
     <div class="row">
-      <!-- Filter Zone on the Left -->
       <div class="col-md-5">
-        <h2>Filter Options</h2>
+        <h2>Filtre</h2>
         <form method="post">
           {% csrf_token %}
           {{ form.as_table }}
@@ -19,10 +18,8 @@
       </div>
     </div>
 
-      <!-- Search Zone on the Right -->
       <div class="col-md-12 row">
-        {% if houses %}
-          <h2 class="mt-4">Search Results</h2>
+          <h2 class="mt-4">Résultats</h2>
           <table class="table table-bordered table-striped">
             <thead>
               <tr>
@@ -31,41 +28,76 @@
                 <th>Type de prix</th>
                 <th>Price</th>
                 <th>People</th>
-                <th>Periods</th>
+                <th>Période disponible</th>
                 <th>Action</th>
               </tr>
             </thead>
-            <tbody>
-              {% for house in houses %}
-                <tr>
-                  <form method="post" action="{% url 'rent_house' house.id %}">
-                    {% csrf_token %}
-                    <td>{{ house.country }}</td>
-                    <td>{{ house.city }}</td>
-                    <td>{{ house.get_price_type_display }}</td>
-                    {% if house.price_type == 'payant' %}
-                      <td>{{ house.price }} €</td>
-                    {% elif house.price_type == 'gratuit' %}
-                      <td>0 €</td>
-                    {% else %}
+              <tbody>
+                {% if houses or propositions %}
+                {% for house in houses %}
+                  <tr>
+                    <form method="post" action="{% url 'rent_house' house.0.id %}">
+                      {% csrf_token %}
+                      <td>{{ house.0.country }}</td>
+                      <td>{{ house.0.city }}</td>
+                      <td>{{ house.0.get_price_type_display }}</td>
+                      {% if house.0.price_type == 'payant' %}
+                        <td>{{ house.0.price }} €</td>
+                      {% elif house.0.price_type == 'gratuit' %}
+                        <td>0 €</td>
+                      {% else %}
+                        <td>
+                          <label for="username">Votre prix </label>
+                          <input required type="text" name="offer" class="form-control" id="offer">
+                        </td>
+                      {% endif %}
+                      <td>{{ house.0.people }}</td>
                       <td>
-                        <label for="username">Votre prix </label>
-                        <input required type="text" name="offer" class="form-control" id="offer">
+                        {{ house.1 }}
                       </td>
-                    {% endif %}
-                    <td>{{ house.people }}</td>
-                    <td>
-                      {{ house.id|get_periods}}
-                    </td>
-                    <td>
-                      <button type="submit" class="btn btn-success">Reserve</button>
-                    </td>
-                  </form>
-                </tr>
-              {% endfor %}
-            </tbody>
+                      <td>
+                        <button type="submit" class="btn btn-success">Reserve</button>
+                      </td>
+                    </form>
+                  </tr>
+                {% endfor %}
+                <h3>Nous vous proposons une combinaison de maison qui satisfait vos filtres</h3>
+                {% for proposition in propositions %}
+                {% for house in proposition %}
+                  <tr>
+                    <form method="post" action="{% url 'rent_house' house.0.id %}">
+                      {% csrf_token %}
+                      <td>{{ house.0.country }}</td>
+                      <td>{{ house.0.city }}</td>
+                      <td>{{ house.0.get_price_type_display }}</td>
+                      {% if house.0.price_type == 'payant' %}
+                        <td>{{ house.0.price }} €</td>
+                      {% elif house.0.price_type == 'gratuit' %}
+                        <td>0 €</td>
+                      {% else %}
+                        <td>
+                          <label for="username">Votre prix </label>
+                          <input required type="text" name="offer" class="form-control" id="offer">
+                        </td>
+                      {% endif %}
+                      <td>{{ house.0.people }}</td>
+                      <td>
+                        {{ house.1|datetime_list_to_str }}
+                      </td>
+                      <td>
+                        <button type="submit" class="btn btn-success">Reserve</button>
+                      </td>
+                    </form>
+                  </tr>
+                  {% endfor %}
+                {% endfor %}
+                {% else %}
+                  <tr>
+                    <td colspan="7">Aucun résultat</td>
+                  </tr>
+                {% endif %}
+              </tbody>
           </table>
-        {% endif %}
       </div>
     </div>
   </div>

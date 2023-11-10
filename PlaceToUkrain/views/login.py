@@ -40,4 +40,4 @@ class LoginView(View):
 def logout(request):
     request.session.clear()
     form = LoginForm ()
-    return render (request, 'login.html', {'form': form})
+    return redirect('/')

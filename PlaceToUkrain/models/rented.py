@@ -1,14 +1,15 @@
 from django.db import models
 from PlaceToUkrain.models.house import House
+from PlaceToUkrain.models.user import UkrUser
 
-class Period(models.Model):
-    house = models.ForeignKey(House, on_delete=models.CASCADE, null=True, blank=True)
+class Rented(models.Model):
     start_date = models.DateField()
     end_date = models.DateField()
-    renter = models.IntegerField()
+    user_id = models.ForeignKey(UkrUser, on_delete=models.CASCADE)
+    house_id = models.ForeignKey(House, on_delete=models.CASCADE)
 
     def __str__(self):
-        return str(self.start_date) + " au " + str(self.end_date)
+        return str(self.start_date) + " " + str(self.end_date)
 
     @staticmethod
     def get_all_periods():
