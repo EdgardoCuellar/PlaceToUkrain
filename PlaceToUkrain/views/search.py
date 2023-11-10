@@ -35,9 +35,12 @@ class SearchView(View):
 
             houses = House.objects.filter(filters)
             available_houses = self.get_availble_houses(houses, start_date, end_date)
-
+            
             if len(available_houses) > 0:
-                return render(request, self.template_name, {'form': form, 'houses': available_houses})
+                period = None
+                if start_date is not None and end_date is not None:
+                    period = (start_date, end_date)
+                return render(request, self.template_name, {'form': form, 'houses': available_houses, 'period': period})
                 
             propositions = self.create_proposition(houses, start_date, end_date, city)
             return render(request, self.template_name, {'form': form, 'houses': None, 'propositions': propositions})

@@ -7,6 +7,7 @@ class Rented(models.Model):
     end_date = models.DateField()
     user_id = models.ForeignKey(UkrUser, on_delete=models.CASCADE)
     house_id = models.ForeignKey(House, on_delete=models.CASCADE)
+    offer = models.IntegerField()
 
     def __str__(self):
         return str(self.start_date) + " " + str(self.end_date)

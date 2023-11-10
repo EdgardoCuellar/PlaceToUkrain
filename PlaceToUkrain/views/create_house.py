@@ -4,6 +4,8 @@ from django.forms.formsets import formset_factory
 from PlaceToUkrain.models.user import UkrUser
 from PlaceToUkrain.models.forms import HouseForm, PeriodForm
 from PlaceToUkrain.models.house import House
+from PlaceToUkrain.models.rented import Rented
+import datetime
 
 NB_MAX_PERIODS = 3
 
@@ -57,7 +59,26 @@ def delete_house(request, house_id):
     return redirect('index')
 
 def rent_house(request, house_id):
-    # house = House.get_house_by_id(house_id)
-    # house.is_rented = True
-    # house.save()
+    house = House.get_house_by_id(house_id)
+    user = UkrUser.get_user_by_id(request.session.get('user'))
+    period_str = request.POST.get('house_period')
+    rented = Rented()
+    rented.house_id = house
+    rented.user_id = user
+
+    print(period_str)
+
+    period = period_str[1:-1].split(', ')
+
+    print(period)
+
+    # transofrm date string to date object
+    rented.start_date = datetime.datetime.strptime(period[0], "datetime.date(%Y, %m, %d)").date()
+    rented.end_date = datetime.datetime.strptime(period[1], "datetime.date(%Y, %m, %d)").date()
+
+    print(rented)
+
+    # rented.save()
+
+
     return redirect('index')
