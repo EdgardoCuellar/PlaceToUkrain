@@ -1,11 +1,12 @@
 import time
 
 def main():
-    exo1()
+    exo2()
 
 # calcul IMC
 def exo1():
     taille = float(input("Taille en cm ?"))
+    taille /= 100
     poids = float(input("Masse en kg ?"))
     imc = poids / (taille * taille)
     print("Votre IMC est de : ", imc)

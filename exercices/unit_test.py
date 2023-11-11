@@ -7,11 +7,11 @@ from exo import exo1, exo2, exo3, exo4, exo5, exo6, exo7, exo8, exo9, exo10, exo
 
 class TestExos(unittest.TestCase):
 
-    @patch('builtins.input', side_effect=['170', '70'])
+    @patch('builtins.input', side_effect=['171', '63'])
     @patch('sys.stdout', new_callable=io.StringIO)
     def test_exo1(self, mock_stdout, mock_input):
         exo1()
-        self.assertEqual(mock_stdout.getvalue().strip(), "Votre IMC est de :  0.002418815331010453")
+        self.assertEqual(mock_stdout.getvalue().strip(), "Votre IMC est de :  21.545090797168363")
 
     @patch('builtins.input', side_effect=['abcdef'])
     @patch('sys.stdout', new_callable=io.StringIO)
@@ -37,7 +37,7 @@ class TestExos(unittest.TestCase):
         exo5()
         self.assertEqual(mock_stdout.getvalue().strip(), "Pour 50 grammes de sucre, il faut 2.0 cuillères à soupe.")
 
-    # Continue with the rest of the tests for each function
+    # Bon est ce réélement nécessaire de tester les autres exos ?
 
 if __name__ == '__main__':
     unittest.main()
