@@ -17,9 +17,20 @@ class Rented(models.Model):
         return Rented.objects.all()
 
     @staticmethod
+    def get_rented_by_id(id):
+        try:
+            return Rented.objects.get(id=id)
+        except:
+            return False
+
+    @staticmethod
     def get_rented_by_user(user):
         return Rented.objects.filter(user=user)
 
     @staticmethod
     def get_rented_by_house(house):
         return Rented.objects.filter(house=house)
+
+    @staticmethod
+    def get_rented_by_house_and_user(house, user):
+        return Rented.objects.filter(house=house, user=user)

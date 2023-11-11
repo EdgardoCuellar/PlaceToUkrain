@@ -5,6 +5,7 @@ from PlaceToUkrain.models.user import UkrUser
 from PlaceToUkrain.models.forms import HouseForm, PeriodForm
 from PlaceToUkrain.models.house import House
 from PlaceToUkrain.models.rented import Rented
+from PlaceToUkrain.models.period import Period
 import datetime
 
 NB_MAX_PERIODS = 3
@@ -37,12 +38,24 @@ class CreateHouseView(View):
             house.save()
 
             bad_periods = 0
+            current_period = None
             for period_form in period_formset:
                 if not period_form.cleaned_data:
                     bad_periods += 1
                     continue
-
-                period = period_form.save(commit=False)
+                else:
+                    if Period.validate_period(period_form.cleaned_data) is False:
+                        bad_periods += 1
+                        continue
+                    if current_date is None:
+                        period = period_form.save(commit=False)
+                        current_period = period
+                    else:
+                        if Period.validate_two_periods(current_period, period_form.cleaned_data) is False:
+                            bad_periods += 1
+                            continue
+                        else:
+                            period = period_form.save(commit=False)
                 period.house = house 
                 period.save()
 
@@ -74,4 +87,9 @@ def rent_house(request, house_id):
 
     rented.save()
 
+    return redirect('index')
+
+def delete_rent(request, rented_id):
+    rented = Rented.get_rented_by_id(rented_id)
+    rented.delete()
     return redirect('index')

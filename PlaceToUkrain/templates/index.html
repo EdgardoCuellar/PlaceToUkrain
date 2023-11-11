@@ -2,6 +2,8 @@
 
 {% block title %}Place to Ukrain{% endblock %}
 
+{% load filter %}
+
 {% block content %}
   <div class="text-center">
     <h1>Place to Ukrain</h1>
@@ -29,20 +31,20 @@
             </tr>
         </thead>
         <tbody>
-            {% for house_period in houses_periods %}
+            {% for house in houses %}
             <tr>
-                <td>{{ house_period.0.country }}</td>
-                <td>{{ house_period.0.city }}</td>
-                <td>{{ house_period.0.get_price_type_display }}</td>
-                <td>{{ house_period.0.price }}</td>
-                <td>{{ house_period.0.people }}</td>
+                <td>{{ house.country }}</td>
+                <td>{{ house.city }}</td>
+                <td>{{ house.get_price_type_display }}</td>
+                <td>{{ house.price }}</td>
+                <td>{{ house.people }}</td>
                 <td>
-                  {% for period in house_period.1 %}
+                  {% for period in house.id|get_periods %}
                     {{ period }}<br>
                   {% endfor %}
                 </td>
                 <td>
-                  <form method="post" action="{% url 'delete_house' house_period.0.id %}">
+                  <form method="post" action="{% url 'delete_house' house.id %}">
                       {% csrf_token %}
                       <button type="submit" class="btn btn-danger">Delete</button>
                   </form>
@@ -51,6 +53,42 @@
             {% endfor %}
         </tbody>
         </table>
+    {% else %}
+        <h2>Vos locations</h2>
+        <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+              <th>Pays</th>
+              <th>Ville</th>
+              <th>Type de prix</th>
+              <th>Prix</th>
+              <th>Nombre de personnes</th>
+              <th>Periode</th>
+              <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+          {% for house in houses %}
+          <tr>
+              <td>{{ house.country }}</td>
+              <td>{{ house.city }}</td>
+              <td>{{ house.get_price_type_display }}</td>
+              <td>{{ house.price }}</td>
+              <td>{{ house.people }}</td>
+              <td>
+                {% for period in house.id|get_rented_periods:user.id %}
+                  {{ period }}<br>
+                {% endfor %}
+              </td>
+              <td>
+                <form method="post" action="{% url 'delete_rent' house.id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+              </td>
+          </tr>
+          {% endfor %}
+      </tbody>
     {% endif %}
   </div>
 {% endblock %}

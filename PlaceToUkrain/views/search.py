@@ -55,7 +55,7 @@ class SearchView(View):
                 house_periods = Period.get_periods_by_house_available(house)
                 
                 for period in house_periods:
-                    if start_date is not None and end_date is not None:
+                    if start_date is not None and end_date is not None and Period.validate_dates(start_date, end_date):
                         if period.start_date <= start_date and period.end_date >= end_date:
                             available_houses.append((house, period))
                     elif start_date is not None:
