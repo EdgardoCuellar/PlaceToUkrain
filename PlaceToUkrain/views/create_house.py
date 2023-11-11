@@ -44,14 +44,14 @@ class CreateHouseView(View):
                     bad_periods += 1
                     continue
                 else:
-                    if Period.validate_period(period_form.cleaned_data) is False:
+                    if Period.validate_dict_period(period_form.cleaned_data) is False:
                         bad_periods += 1
                         continue
-                    if current_date is None:
+                    if current_period is None:
                         period = period_form.save(commit=False)
                         current_period = period
                     else:
-                        if Period.validate_two_periods(current_period, period_form.cleaned_data) is False:
+                        if Period.validate_two_periods_dict(current_period, period_form.cleaned_data) is False:
                             bad_periods += 1
                             continue
                         else:

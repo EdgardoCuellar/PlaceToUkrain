@@ -59,7 +59,14 @@ class Period(models.Model):
 
     @staticmethod
     def validate_period(period):
+        print(period)
         if period.start_date > period.end_date:
+            return False
+        return True
+
+    @staticmethod
+    def validate_dict_period(period):
+        if period['start_date'] > period['end_date']:
             return False
         return True
 
@@ -74,6 +81,14 @@ class Period(models.Model):
         if period1.start_date > period2.start_date:
             return False
         if period1.end_date > period2.start_date:
+            return False
+        return True
+
+    @staticmethod
+    def validate_two_periods_dict(period1, period2):
+        if period1.start_date > period2['start_date']:
+            return False
+        if period1.end_date > period2['start_date']:
             return False
         return True
             

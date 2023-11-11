@@ -7,12 +7,11 @@
   <div class="container">
     <div class="row justify-content-center">
       <div class="col-md-6">
-        <h1 class="text-center">Create a House</h1>
+        <h1 class="text-center">Proposer une maison</h1>
         <form method="post" class="my-4">
           {% csrf_token %}
           {{ house_form.as_p }}
-          {{ period_formset.management_form }}  {# Add this line to include the management form #}
-      
+          {{ period_formset.management_form }}
           <fieldset>
             <legend>Periods</legend>
             {% for form in period_formset %}
@@ -31,7 +30,7 @@
         </fieldset>
         
         {{ error }}  <br>
-        <button type="submit" class="btn btn-primary mt-3">Create House</button>
+        <button type="submit" class="btn btn-primary mt-3">Proposer</button>
       </form>
       
       

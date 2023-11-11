@@ -9,11 +9,11 @@
     <h1>Place to Ukrain</h1>
     <h2>Bienvenue {{user.email}}</h2>
     <div class="btn-group mt-4" role="group">
-      <a href="{% url 'statistics' %}" class="btn btn-primary">Statistics</a>
+      <a href="{% url 'statistics' %}" class="btn btn-primary">Statistiques</a>
       {% if user.is_host %}
-        <a href="{% url 'create_house' %}" class="btn btn-success">Create a House</a>
+        <a href="{% url 'create_house' %}" class="btn btn-success">Proposer une maison</a>
       {% else %}
-        <a href="{% url 'search' %}" class="btn btn-info">Search for a House</a>
+        <a href="{% url 'search' %}" class="btn btn-info">Rechercher une maison</a>
       {% endif %}
     </div>
     {% if user.is_host %}

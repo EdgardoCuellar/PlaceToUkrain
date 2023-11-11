@@ -43,6 +43,10 @@ class House(models.Model):
     @staticmethod
     def get_houses_by_city(city):
         return House.objects.filter(city=city)
+    
+    @staticmethod
+    def get_all_countries():
+        return House.objects.values_list('country', flat=True).distinct()
 
     @staticmethod
     def get_all_cities():

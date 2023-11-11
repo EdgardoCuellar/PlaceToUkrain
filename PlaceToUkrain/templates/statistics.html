@@ -4,6 +4,24 @@
 
 {% block content %}
   <div class="text-center">
-    <h1>Statistics</h1>
+    <h1>Statistiques</h1>
+    <table class="table table-bordered table-striped">
+      <thead>
+        <tr>
+          <th>Pays</th>
+          <th>Maisons proposés</th>
+          <th>Maisons loués</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for stat in country_statistics %}
+          <tr>
+            <td>{{ stat.country }}</td>
+            <td>{{ stat.houses_offered }}</td>
+            <td>{{ stat.rented_houses_country }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
   </div>
 {% endblock %}
